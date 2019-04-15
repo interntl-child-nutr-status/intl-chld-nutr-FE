@@ -45,6 +45,14 @@ class NewUser extends Component{
         }
 
         console.log(newUser);
+
+        this.setState({
+            username: '',
+            password: '',
+            selectedValue: null
+        })
+
+        //will need to send to server to add user
     }
 
 
