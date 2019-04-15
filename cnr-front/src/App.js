@@ -3,6 +3,7 @@ import './App.css';
 import NewUser from './components/NewUser';
 import SignIn from './components/SignIn';
 import CountryList from './components/CountryList';
+import CommunityList from './components/CommunityList';
 
 class App extends Component {
   render() {
@@ -10,7 +11,8 @@ class App extends Component {
       <div className="App">
         {/* <NewUser /> */}
         {/* <SignIn /> */}
-        <CountryList />
+        {/* <CountryList /> */}
+        <CommunityList />
       </div>
     );
   }

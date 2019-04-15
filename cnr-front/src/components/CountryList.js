@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Country from './Country';
 
 class CountryList extends Component{
     constructor(props){
@@ -39,7 +40,7 @@ class CountryList extends Component{
         return(
             <div>
                 {this.state.countries.map(country =>{
-                    return <div key={country.id}>This will be the country component</div>
+                    return <Country name={country.name} communities={country.communities}/>
                 })}
             </div>
         )
