@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Community from './Community';
+import { Link } from 'react-router-dom';
 
 class CommunityList extends Component {
     constructor(props){
@@ -7,6 +8,8 @@ class CommunityList extends Component {
         this.state={
             communities: []
         }
+
+        console.log(this.props.history.location.pathname)
     }
 
     componentDidMount(){
@@ -41,7 +44,7 @@ class CommunityList extends Component {
             <div>
                 <h1>Communities in [COUNTRY NAME]</h1>
                 {this.state.communities.map(comm => {
-                    return(<Community key={comm.id} name={comm.name} children={comm.children} />)
+                    return(<Link key={comm.id} to={`${this.props.history.location.pathname}/${comm.id}`}><Community name={comm.name} children={comm.children} /> </Link>)
                 })}
             </div>
         )

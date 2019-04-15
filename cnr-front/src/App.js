@@ -5,6 +5,7 @@ import SignIn from './components/SignIn';
 import CountryList from './components/CountryList';
 import CommunityList from './components/CommunityList';
 import { Route, Link } from 'react-router-dom';
+import CommunityPage from './components/CommunityPage';
 
 class App extends Component {
   render() {
@@ -15,10 +16,12 @@ class App extends Component {
           <Link to='/login'>Log In</Link>
           <Link to='/countries'>View Countries</Link>
         </nav>
+
         <Route path='/newUser' component = {NewUser} />
         <Route path='/login' component = {SignIn} />
         <Route exact path='/countries' component = {CountryList} />
         <Route exact path='/countries/:countryID' component = {CommunityList} />
+        <Route exact path='/countries/:countryID/:communityID' component = {CommunityPage} />
       </div>
     );
   }
