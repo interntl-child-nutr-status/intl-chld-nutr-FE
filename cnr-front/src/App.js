@@ -6,19 +6,39 @@ import CountryList from './components/CountryList';
 import CommunityList from './components/CommunityList';
 import { Route, Link } from 'react-router-dom';
 import CommunityPage from './components/CommunityPage';
+import PrivateRoute from './PrivateRoute';
 
 class App extends Component {
+  constructor(){
+    super();
+    this.state={
+      loggedIn: false
+    };
+  }
+
+  signIn = () =>{
+    this.setState({
+      loggedIn: true
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <nav>
-          <Link to='/newUser'>Add a User</Link>
-          <Link onClick={() => localStorage.removeItem('token')} to='/'>Log Out</Link>
+          {localStorage.getItem('adminStatus') &&<Link to='/newUser'>Add a User</Link>}
+          <Link onClick={() => {
+              localStorage.removeItem('adminStatus')
+              localStorage.removeItem('token')
+              this.setState({
+                loggedIn: false
+              })
+            }} to='/'>Log Out</Link>
           <Link to='/countries'>View Countries</Link>
         </nav>
 
-        <Route path='/newUser' component = {NewUser} />
-        <Route exact path='/' component = {SignIn} />
+        <PrivateRoute path='/newUser' component = {NewUser} admin={true} />
+        <Route exact path='/' render={(props) => <SignIn {...props} signIn={this.signIn}/>} />
         <Route exact path='/countries' component = {CountryList} />
         <Route exact path='/countries/:countryID' component = {CommunityList} />
         <Route exact path='/countries/:countryID/:communityID' component = {CommunityPage} />

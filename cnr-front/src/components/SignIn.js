@@ -29,6 +29,7 @@ class SignIn extends Component{
             .then(res => {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('adminStatus', res.data.is_admin);
+                this.props.signIn()
             })
             .catch(err => console.log(err));
 
