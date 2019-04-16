@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import NewChildForm from './NewChildForm';
 
 class CommunityPage extends Component {
     constructor(props){
         super(props);
         this.state={
-            children:[]
+            children:[],
+            addingChild: false
         }
     }
     
@@ -54,6 +56,17 @@ class CommunityPage extends Component {
         })
     }
 
+    addChildToggle = e =>{
+        e.preventDefault();
+
+        if (this.state.addingChild){
+            this.setState({ addingChild: false })
+        }
+        else{
+            this.setState({ addingChild: true })
+        }
+    }
+
 
     render(){
         return(
@@ -65,6 +78,9 @@ class CommunityPage extends Component {
                         <div key={child.id}><span>{child.name}</span><span>{child.weights[0].date}</span><span>age will be here</span><span>height</span><span>weight</span></div>
                     )
                 })}
+
+                <button onClick = {this.addChildToggle}>Add a Child</button>
+                {this.state.addingChild && <NewChildForm />}
             </div>
         )
     }

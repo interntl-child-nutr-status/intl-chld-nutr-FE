@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import Community from './Community';
 import { Link } from 'react-router-dom';
 
+
 class CommunityList extends Component {
     constructor(props){
         super(props);
         this.state={
-            communities: []
+            communities: [],
         }
 
         console.log(this.props.history.location.pathname)
@@ -37,6 +38,8 @@ class CommunityList extends Component {
         });
 
     }
+
+
 
 
     render(){
