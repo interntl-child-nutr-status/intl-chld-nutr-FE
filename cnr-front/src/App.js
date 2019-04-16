@@ -7,7 +7,6 @@ import CommunityList from './components/CommunityList';
 import { Route, Link } from 'react-router-dom';
 import CommunityPage from './components/CommunityPage';
 import PrivateRoute from './PrivateRoute';
-import NewChildForm from './components/NewChildForm';
 
 class App extends Component {
   constructor(){

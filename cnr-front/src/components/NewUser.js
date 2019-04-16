@@ -42,14 +42,18 @@ class NewUser extends Component{
             password: this.state.password
         };
         if (this.state.selectedValue === 'admin'){
-            newUser.userType='admin'
+            newUser.role_id= 1
         }
         else{
-            newUser.usertype='user';
-            newUser.country=this.state.selectedValue
+            newUser.role_id=2;
+            newUser.country_id=parseInt(this.state.selectedValue, 10)
         }
 
         console.log(newUser);
+
+        axiosWithAuth().post('https://intl-child-backend.herokuapp.com/api/auth/register', newUser)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
 
         this.setState({
             username: '',
@@ -62,7 +66,7 @@ class NewUser extends Component{
 
 
     render(){
-        console.log(this.state)
+        //console.log(this.state)
         return(
             <div className="signUp">
                 <h2>Add A New User</h2>
