@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import axiosWithAuth from './axiosWithAuth';
 
 class NewUser extends Component{
     constructor(props){
         super(props);
         this.state={
+            countries: [],
             username: '',
             password: '',
             selectedValue: null
@@ -11,10 +13,13 @@ class NewUser extends Component{
     }
 
     componentDidMount(){
-        console.log(this.refs)
-        this.setState({
-            selectedValue: this.refs.countrySelector.value
-        });
+
+        console.log("calling /api/countries for full country list");
+
+        axiosWithAuth().get('https://intl-child-backend.herokuapp.com/api/countries')
+            .then(res => this.setState({countries: res.data}))
+            .catch(err => console.log(err));
+
     }
 
 
@@ -82,9 +87,9 @@ class NewUser extends Component{
                         Country:
                         <select onChange={e => this.dropdownChange(e)} ref="countrySelector">
                             <option value="admin">N/A: Admin</option>
-                            <option value="USA">USA</option>
-                            <option value="Canada">Canada</option>
-                            <option value="Mexico">Mexico</option>
+                            {this.state.countries.map(country =>{
+                                return(<option key={country.id} value={country.id}>{country.Country}</option>)
+                            })}
                         </select>
                     </label>
                     <input type='submit' />

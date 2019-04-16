@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Country from './Country';
-import { Link } from 'react-router-dom';
+import axiosWithAuth from "./axiosWithAuth.js";
 
 class CountryList extends Component{
     constructor(props){
@@ -12,36 +12,21 @@ class CountryList extends Component{
     }
 
     componentDidMount(){
-        console.log("will do axios call to grab countries");
-        const countryList = [
-            {
-                name: 'USA',
-                communities: 4,
-                id: 0
-            },
-            {
-                name: 'Canada',
-                communities: 2,
-                id: 1
-            },
-            {
-                name: 'Mexico',
-                communities: 5,
-                id: 2
-            }
-        ];
+        console.log("grabbing country list");
 
-        this.setState({
-            countries: countryList
-        })
+        axiosWithAuth().get('https://intl-child-backend.herokuapp.com/api/countries/active/')
+            .then(res => this.setState({countries: res.data}))
+            .catch(err => console.log(err));
+
     }
 
 
     render(){
+        console.log(this.state.countries);
         return(
             <div>
                 {this.state.countries.map(country =>{
-                    return <Link key={country.id} to={`/countries/${country.id}`}><Country name={country.name} communities={country.communities} /></Link>
+                    return <Country key={country.id} id={country.id} name={country.Country} communities={country.Communities} />
                 })}
             </div>
         )

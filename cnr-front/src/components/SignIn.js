@@ -23,7 +23,6 @@ class SignIn extends Component{
             password: this.state.password
         }
         
-        console.log(user);
 
         axios.post('https://intl-child-backend.herokuapp.com/api/auth/login', user)
             .then(res => {
