@@ -13,12 +13,12 @@ class App extends Component {
       <div className="App">
         <nav>
           <Link to='/newUser'>Add a User</Link>
-          <Link to='/login'>Log In</Link>
+          <Link onClick={() => localStorage.removeItem('token')} to='/'>Log Out</Link>
           <Link to='/countries'>View Countries</Link>
         </nav>
 
         <Route path='/newUser' component = {NewUser} />
-        <Route path='/login' component = {SignIn} />
+        <Route exact path='/' component = {SignIn} />
         <Route exact path='/countries' component = {CountryList} />
         <Route exact path='/countries/:countryID' component = {CommunityList} />
         <Route exact path='/countries/:countryID/:communityID' component = {CommunityPage} />

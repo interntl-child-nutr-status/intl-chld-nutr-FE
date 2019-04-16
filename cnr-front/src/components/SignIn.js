@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class SignIn extends Component{
     constructor(props){
@@ -24,7 +25,13 @@ class SignIn extends Component{
         
         console.log(user);
 
-        //will need to use axios to send to server, obtain token, and reroute
+        axios.post('https://intl-child-backend.herokuapp.com/api/auth/login', user)
+            .then(res => {
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('adminStatus', res.data.is_admin);
+            })
+            .catch(err => console.log(err));
+
     }
 
     render(){
