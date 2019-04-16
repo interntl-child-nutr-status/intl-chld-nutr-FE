@@ -26,7 +26,7 @@ class App extends Component {
     return (
       <div className="App">
         <nav>
-          {localStorage.getItem('adminStatus') &&<Link to='/newUser'>Add a User</Link>}
+          {localStorage.getItem('adminStatus')==='true' &&<Link to='/newUser'>Add a User</Link>}
           <Link onClick={() => {
               localStorage.removeItem('adminStatus')
               localStorage.removeItem('token')

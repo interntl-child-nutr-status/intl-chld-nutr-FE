@@ -3,14 +3,15 @@ import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({component: Component, admin, ...rest}) =>{
     if (admin){
+        console.log(admin, localStorage.getItem('adminStatus'));
         return(
             <Route
                 {...rest}
                 render={props =>
-                (localStorage.getItem("token") && localStorage.getItem('adminStatus'))? (
+                (localStorage.getItem("token") && localStorage.getItem('adminStatus') === 'true')? (
                     <Component {...props} />
                 ) : (
-                    <Redirect to="/" />
+                    <Redirect to="/countries" />
                 )
                 }
              />
