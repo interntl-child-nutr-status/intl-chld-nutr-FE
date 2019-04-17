@@ -9,10 +9,8 @@ class NewChildForm extends Component{
             guardian: '',
             contact: '',
             dateOfBirth: '',
-            country: null,
-            community: null,
-            countries: [],
-            communities: [{Community: 'test', id: 1}]
+            country: this.props.countryId,
+            community: this.props.communityId,
         }
     }
 
@@ -22,26 +20,6 @@ class NewChildForm extends Component{
         })
     }
 
-    dropdownChange = e =>{
-        console.log("use get to pull communities for selected country");
-        this.setState({
-            country: this.refs.countrySelect.value
-        })
-    }
-
-    communityChange = e =>{
-        this.setState({
-            community: this.refs.communitySelect.value
-        })
-    }
-
-
-    componentDidMount(){
-        //getting list of countries for dropdown menu
-        axiosWithAuth().get('https://intl-child-backend.herokuapp.com/api/countries/active/')
-            .then(res => this.setState({countries: res.data}))
-            .catch(err => console.log(err))
-    }
 
     submitForm = e =>{
         e.preventDefault();
@@ -53,14 +31,16 @@ class NewChildForm extends Component{
             contact: this.state.contact,
             dateOfBirth: this.state.dateOfBirth,
             country: this.state.country,
-            community: this.state.community
+            community: this.state.communityId
         }
 
         console.log(newChild);
+        //Will call axios.post when ready
+
+
     }
 
     render(){
-        console.log(this.state);
         return(
             <div>
                 <form onSubmit = {e => this.submitForm(e)}>
@@ -101,27 +81,8 @@ class NewChildForm extends Component{
                         />
                     </label>
                     <label>
-                        Country:
-                        <select ref="countrySelect" onChange={e => this.dropdownChange(e)}>
-                            <option value='placeholder'>Please Select a Country</option>
-                            {this.state.countries.map(country => {
-                                return(<option key={country.id} value={country.id}>{country.Country}</option>)
-                            })}
-                        </select>
-                    </label>
-
-                    {(this.state.communities.length > 0) && (
-                        <label>
-                        Community:
-                        <select ref="communitySelect" onChange={e => this.communityChange(e)}>
-                            <option value='placeholder'>Please Select a Community</option>
-                            {this.state.communities.map(community => {
-                                return(<option key={community.id} value={community.id}>{community.Community}</option>)
-                            })}
-                        </select>
                         <input type='submit' />
                     </label>
-                    )}
                 </form>
             </div>
         )

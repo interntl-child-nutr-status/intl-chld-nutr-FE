@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import NewChildForm from './NewChildForm';
+import axiosWithAuth from './axiosWithAuth';
 
 class CommunityPage extends Component {
     constructor(props){
         super(props);
         this.state={
             children:[],
-            addingChild: false
+            addingChild: false,
+            community: '',
+            country: '',
+            city: '',
+            countryId: null,
+            communityId: null
         }
     }
     
@@ -15,49 +21,23 @@ class CommunityPage extends Component {
 
         const communityId = this.props.history.location.pathname;
         const url_array = communityId.split('/');
-        console.log(url_array);
         console.log("axios call to retreive children");
-        const childrenList = [
-            {
-                id:0,
-                name: 'sally',
-                parent: 'Mr. Sally',
-                parentPhone: '555-1234',
-                country: 'someCountry',
-                community: 'someCommunity',
-                DOB: '01252016',
-                gender: 'f',
-                height: '85',
-                weights: [{weight: '20', date: '03252019'}]
-            },
-            {
-                id:1,
-                name: 'larry',
-                parent: 'Mr. larry',
-                parentPhone: '555-4321',
-                country: 'anotherCountry',
-                community: 'anotherCommunity',
-                DOB: '10122014',
-                gender: 'm',
-                height: '60',
-                weights: [{weight: '20', date: '03252019'}]
-            },
-            {
-                id:2,
-                name: 'someone else',
-                parent: 'their dad',
-                parentPhone: '1118886',
-                country: 'someOtherCountry',
-                community: 'someOtherCommunity',
-                DOB: '07042015',
-                gender: 'm',
-                height: '80',
-                weights: [{weight: '20', date: '03252019'}]
-            }
-        ]
-        this.setState({
-            children: childrenList
-        })
+
+        axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/communities/${url_array[2]}/${url_array[3]}`)
+            .then(res => {
+                console.log(res.data.children);
+                this.setState({
+                    children: res.data.children,
+                    community: res.data.community,
+                    city: res.data.city,
+                    country: res.data.country,
+                    countryId: url_array[2],
+                    communityId: url_array[3]
+                })
+            })
+            .catch(err => console.log(err))
+       
+
     }
 
     addChildToggle = e =>{
@@ -75,7 +55,8 @@ class CommunityPage extends Component {
     render(){
         return(
             <div className="communityContainer">
-                <h1>Community name here</h1>
+                <h1>{this.state.community}</h1>
+                <h2>{this.state.city}</h2>
 
                 {this.state.children.map(child =>{
                     return(
@@ -84,7 +65,10 @@ class CommunityPage extends Component {
                 })}
 
                 <button onClick = {this.addChildToggle}>Add a Child</button>
-                {this.state.addingChild && <NewChildForm />}
+                {this.state.addingChild && <NewChildForm
+                    countryId={this.state.countryId}
+                    communityId={this.state.communityId}
+                />}
             </div>
         )
     }
