@@ -60,7 +60,7 @@ class CommunityPage extends Component {
 
                 {this.state.children.map(child =>{
                     return(
-                        <div key={child.id}><span>{child.name}</span><span>{child.weights[0].date}</span><span>age will be here</span><span>height</span><span>weight</span></div>
+                        <div key={child.id}><span>{child.name}</span></div>
                     )
                 })}
 

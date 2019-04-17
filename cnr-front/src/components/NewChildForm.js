@@ -11,6 +11,9 @@ class NewChildForm extends Component{
             dateOfBirth: '',
             country: this.props.countryId,
             community: this.props.communityId,
+            height: '',
+            wieght: '',
+            sex: "M"
         }
     }
 
@@ -18,6 +21,12 @@ class NewChildForm extends Component{
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    dropdownChange = e =>{
+        this.setState({
+            sex: this.refs.sexSelector.value
+        })    
     }
 
 
@@ -29,18 +38,24 @@ class NewChildForm extends Component{
             name: this.state.name,
             guardian: this.state.guardian,
             contact: this.state.contact,
-            dateOfBirth: this.state.dateOfBirth,
-            country: this.state.country,
-            community: this.state.communityId
+            dob: this.state.dateOfBirth,
+            country_id: parseInt(this.state.country, 10),
+            community_id: parseInt(this.state.community, 10),
+            sex: this.state.sex
         }
 
         console.log(newChild);
         //Will call axios.post when ready
 
+        axiosWithAuth().post('https://intl-child-backend.herokuapp.com/api/children', newChild)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
 
     }
 
     render(){
+        console.log(this.props.community)
         return(
             <div>
                 <form onSubmit = {e => this.submitForm(e)}>
@@ -54,6 +69,23 @@ class NewChildForm extends Component{
                         />
                     </label>
                     <label>
+                        Date of Birth (MMDDYYYY):
+                        <input 
+                            type='text'
+                            value={this.state.dateOfBirth}
+                            name='dateOfBirth' 
+                            onChange={e => this.formChange(e)} 
+                        />
+                    </label>
+                    <label>
+                        Sex:
+                        <select ref='sexSelector' onChange={e => this.dropdownChange(e)}>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="I">Other</option>
+                        </select>
+                    </label>
+                    <label>
                         Primary Guardian:
                         <input 
                             type='text'
@@ -63,20 +95,11 @@ class NewChildForm extends Component{
                         />
                     </label>
                     <label>
-                        Phone Number:
+                        Phone Number (###-###-####):
                         <input 
                             type='text'
                             name='contact'
                             value={this.state.contact} 
-                            onChange={e => this.formChange(e)} 
-                        />
-                    </label>
-                    <label>
-                        Date of Birth (MMDDYYYY):
-                        <input 
-                            type='text'
-                            value={this.state.dateOfBirth}
-                            name='dateOfBirth' 
                             onChange={e => this.formChange(e)} 
                         />
                     </label>
