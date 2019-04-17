@@ -7,6 +7,7 @@ import CommunityList from './components/CommunityList';
 import { Route, Link } from 'react-router-dom';
 import CommunityPage from './components/CommunityPage';
 import PrivateRoute from './PrivateRoute';
+import CommunityForm from './components/CommunityForm'
 
 class App extends Component {
   constructor(){
@@ -27,15 +28,17 @@ class App extends Component {
       <div className="App">
         <nav>
           {localStorage.getItem('adminStatus')==='true' &&<Link to='/newUser'>Add a User</Link>}
-          <Link onClick={() => {
+          {localStorage.getItem('token') && <Link onClick={() => {
               localStorage.removeItem('adminStatus')
               localStorage.removeItem('token')
               this.setState({
                 loggedIn: false
               })
-            }} to='/'>Log Out</Link>
-          <Link to='/countries'>View Countries</Link>
+            }} to='/'>Log Out</Link>}
+          {localStorage.getItem('token') && <Link to='/countries'>View Countries</Link>}
         </nav>
+
+        <CommunityForm />
 
         <PrivateRoute path='/newUser' component = {NewUser} admin={true} />
         <Route exact path='/' render={(props) => <SignIn {...props} signIn={this.signIn}/>} />

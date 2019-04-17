@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class SignIn extends Component{
     constructor(props){
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            loggedIn: false
         }
     }
 
@@ -26,9 +28,11 @@ class SignIn extends Component{
 
         axios.post('https://intl-child-backend.herokuapp.com/api/auth/login', user)
             .then(res => {
+                console.log(res.data);
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('adminStatus', res.data.is_admin);
                 this.props.signIn()
+                this.setState({loggedIn: true})
             })
             .catch(err => console.log(err));
 
@@ -60,6 +64,7 @@ class SignIn extends Component{
                     </label>
                     <input type='submit'></input>
                 </form>
+                {this.state.loggedIn && <Redirect to='/countries' />}
             </div>
         )
     }    

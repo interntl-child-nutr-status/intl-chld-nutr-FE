@@ -92,7 +92,7 @@ class NewUser extends Component{
                         <select onChange={e => this.dropdownChange(e)} ref="countrySelector">
                             <option value="admin">N/A: Admin</option>
                             {this.state.countries.map(country =>{
-                                return(<option key={country.id} value={country.id}>{country.Country}</option>)
+                                return(<option key={country.id} value={country.id}>{country.country}</option>)
                             })}
                         </select>
                     </label>

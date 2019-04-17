@@ -26,7 +26,7 @@ class CountryList extends Component{
         return(
             <div>
                 {this.state.countries.map(country =>{
-                    return <Country key={country.id} id={country.id} name={country.Country} communities={country.Communities} />
+                    return <Country key={country.id} id={country.id} name={country.country} communities={country.communities} />
                 })}
             </div>
         )
