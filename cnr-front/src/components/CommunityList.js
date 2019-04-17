@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Community from './Community';
 import { Link } from 'react-router-dom';
+import axiosWithAuth from './axiosWithAuth';
 
 
 class CommunityList extends Component {
@@ -8,34 +9,26 @@ class CommunityList extends Component {
         super(props);
         this.state={
             communities: [],
+            country: ''
         }
 
-        console.log(this.props.history.location.pathname)
     }
 
-    componentDidMount(){
-        console.log("Axios call for communities here");
-        const communityList = [
-            {
-                name: 'Community 1',
-                children: 3,
-                id: 0
-            },
-            {
-                name: 'Community 2',
-                children: 7,
-                id: 1
-            },
-            {
-                name: 'Community 3',
-                children: 1,
-                id: 2
-            }
-        ];
+    componentDidMount(){  
 
-        this.setState({
-            communities: communityList
-        });
+        const countryId = this.props.history.location.pathname.substring(this.props.history.location.pathname.lastIndexOf('/') + 1, this.props.history.location.pathname.length)
+
+        axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/communities/${countryId}`)
+            .then(res => {
+                console.log(res);
+                this.setState({ 
+                    communities: res.data,
+                    country: countryId
+                 })
+            })
+            .catch(err => console.log(err));
+
+
 
     }
 
@@ -45,9 +38,9 @@ class CommunityList extends Component {
     render(){
         return(
             <div>
-                <h1>Communities in [COUNTRY NAME]</h1>
+                <h1>Communities</h1>
                 {this.state.communities.map(comm => {
-                    return(<Link key={comm.id} to={`${this.props.history.location.pathname}/${comm.id}`}><Community name={comm.name} children={comm.children} /> </Link>)
+                    return(<Link key={comm.id} to={`${this.props.history.location.pathname}/${comm.id}`}><Community name={comm.community} city={comm.city} /> </Link>)
                 })}
             </div>
         )

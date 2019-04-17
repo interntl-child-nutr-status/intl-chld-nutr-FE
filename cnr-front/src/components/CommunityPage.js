@@ -12,6 +12,10 @@ class CommunityPage extends Component {
     
 
     componentDidMount(){
+
+        const communityId = this.props.history.location.pathname;
+        const url_array = communityId.split('/');
+        console.log(url_array);
         console.log("axios call to retreive children");
         const childrenList = [
             {
