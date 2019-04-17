@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axiosWithAuth from './axiosWithAuth';
 import { Redirect } from 'react-router-dom';
+import ChildEdit from './ChildEdit';
 
 class Child extends Component{
     constructor(props){
@@ -8,21 +9,47 @@ class Child extends Component{
         this.state = {
             screenings: [],
             childName: '',
+            sex: '',
+            dob: '',
+            guardian: '',
+            contact: '',
             childId: parseInt(this.props.location.pathname.split('/')[2], 10),
             attemptDelete: false,
             deleteSuccess: false,
             communityId: null,
-            countryId: null
+            countryId: null,
+            age: null,
+            attemptingEdit: false
         }
+    }
+
+    normalizeDate = string =>{
+        return  string.substring(5, 7) + string.substring(8, 10) + string.substring(0, 4)
+    }
+
+
+    submitUpdate (updatedChild){
+        console.log("is this where I\'m putting")
+        axiosWithAuth().put(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`, updatedChild)
+            .then(res => console.log(res))
+            .catch(err => console.log(err, 'error from submitUpdate'));
     }
 
     componentDidMount(){
         axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`)
             .then(res => {
-                console.log(res);
+                //console.log(res);
+                //console.log(this.normalizeDate(res.data.dob))
                 this.setState({
                     communityId: res.data.community_id,
-                    countryId: res.data.country_id
+                    countryId: res.data.country_id,
+                    childName: res.data.name,
+                    age: res.data.age,
+                    dob: this.normalizeDate(res.data.dob),
+                    guardian: res.data.guardian,
+                    contact: res.data.contact,
+                    sex: res.data.sex,
+                    attemptingEdit: true
                 })
             })
             .catch(err => console.log(err));
@@ -52,9 +79,11 @@ class Child extends Component{
 
 
     render(){
+        this.submitUpdate({test: 'object'});
+        //console.log(this.state);
         return (
             <div>
-                I'm a child!
+                <h2>{this.state.childName}</h2>
 
                 <button onClick={e => this.attemptDelete(e)}>Delete Child Record</button>
                 {this.state.attemptDelete && (
@@ -63,6 +92,16 @@ class Child extends Component{
                         <button onClick={e => this.deleteChild(e)}>Yes</button>
                         <button onClick={e => this.attemptDelete(e)} >No</button>
                     </div>
+                )}
+                {this.state.attemptingEdit && (
+                    <ChildEdit 
+                        name={this.state.childName}
+                        guardian={this.state.guardian}
+                        contact={this.state.contact}
+                        sex={this.state.sex}
+                        dob={this.state.dob}
+                        submitUpdate={() => this.submitUpdate()}    
+                    />
                 )}
                 {this.state.deleteSuccess && <Redirect to={`/countries/${this.state.countryId}/${this.state.communityId}`} />}
             </div>
