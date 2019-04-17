@@ -40,8 +40,10 @@ class CommunityForm extends Component{
             city: this.state.city
         }
         axiosWithAuth().post(`https://intl-child-backend.herokuapp.com/api/communities/${this.state.selected}`, newCommunity)
-            .then(res => console.log('here\'s the result', res))
+            .then(res => this.props.refresh())
             .catch(err => console.log(err));
+
+
 
     }
 
