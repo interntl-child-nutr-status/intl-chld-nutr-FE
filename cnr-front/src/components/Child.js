@@ -10,13 +10,21 @@ class Child extends Component{
             childName: '',
             childId: parseInt(this.props.location.pathname.split('/')[2], 10),
             attemptDelete: false,
-            deleteSuccess: false
+            deleteSuccess: false,
+            communityId: null,
+            countryId: null
         }
     }
 
     componentDidMount(){
         axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`)
-            .then(res => console.log(res))
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    communityId: res.data.community_id,
+                    countryId: res.data.country_id
+                })
+            })
             .catch(err => console.log(err));
     }
 
@@ -56,7 +64,7 @@ class Child extends Component{
                         <button onClick={e => this.attemptDelete(e)} >No</button>
                     </div>
                 )}
-                {this.state.deleteSuccess && <Redirect to='/countries'/>}
+                {this.state.deleteSuccess && <Redirect to={`/countries/${this.state.countryId}/${this.state.communityId}`} />}
             </div>
         )
     }
