@@ -9,7 +9,8 @@ class CommunityList extends Component {
         super(props);
         this.state={
             communities: [],
-            country: ''
+            country: '',
+            countryName: ''
         }
 
     }
@@ -23,7 +24,8 @@ class CommunityList extends Component {
                 console.log(res);
                 this.setState({ 
                     communities: res.data,
-                    country: countryId
+                    country: countryId,
+                    countryName: res.data[0].country
                  })
             })
             .catch(err => console.log(err));
@@ -38,7 +40,7 @@ class CommunityList extends Component {
     render(){
         return(
             <div>
-                <h1>Communities</h1>
+                <h1>Communities in {this.state.countryName}</h1>
                 {this.state.communities.map(comm => {
                     return(<Link key={comm.id} to={`${this.props.history.location.pathname}/${comm.id}`}><Community name={comm.community} city={comm.city} /> </Link>)
                 })}

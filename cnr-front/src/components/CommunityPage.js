@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NewChildForm from './NewChildForm';
 import axiosWithAuth from './axiosWithAuth';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 class CommunityPage extends Component {
     constructor(props){
@@ -13,7 +13,9 @@ class CommunityPage extends Component {
             country: '',
             city: '',
             countryId: null,
-            communityId: null
+            communityId: null,
+            deletingCommunity: false,
+            deletedCommunity: false
         }
     }
     
@@ -72,9 +74,28 @@ class CommunityPage extends Component {
             .catch(err => console.log(err))
     }
 
+    deleteToggle = () =>{
+        if (this.state.deletingCommunity){
+            this.setState({
+                deletingCommunity: false
+            })
+        }
+        else{
+            this.setState({
+                deletingCommunity: true
+            })
+        }
+    }
+
+    deleteCommunity = () =>{
+        axiosWithAuth().delete(`https://intl-child-backend.herokuapp.com/api/communities/${this.state.countryId}/${this.state.communityId}`)
+            .then(res => this.setState({ deletedCommunity: true}))
+            .catch(err => console.log(err));
+    }
+
 
     render(){
-        console.log('children here: ',this.state.children);
+        console.log(this.state.deletingCommunity);
         return(
             <div className="communityContainer">
                 <h1>{this.state.community}</h1>
@@ -95,6 +116,19 @@ class CommunityPage extends Component {
                     communityId={this.state.communityId}
                     checkNewChild={this.checkNewChild}
                 />}
+
+                <button onClick={() => this.deleteToggle()}>Delete this Community</button>
+                {this.state.deletingCommunity && (
+                    <div>
+                        <p>Are you sure you wish to delete this Community? All child records will be lost. This can not be undone.</p>
+                        <button onClick={() => this.deleteCommunity()}>Yes</button>
+                        <button onClick={() => this.deleteToggle()} >No</button>
+                    </div>
+                )}
+
+                {this.state.deletedCommunity && <Redirect to='/countries' />}
+
+
             </div>
         )
     }
