@@ -57,8 +57,7 @@ class Child extends Component{
                     dob: this.normalizeDate(res.data.dob),
                     guardian: res.data.guardian,
                     contact: res.data.contact,
-                    sex: res.data.sex,
-                    attemptingEdit: true
+                    sex: res.data.sex
                 })
             })
             .catch(err => console.log(err));
@@ -77,6 +76,19 @@ class Child extends Component{
         }
     }
 
+    attemptEdit = e =>{
+        console.log('attempting to edit');
+        console.log(this.state.attemptingEdit);
+        if (!this.state.attemptingEdit){
+            console.log("should flip to true");
+            this.setState({attemptingEdit: true})
+        }
+        else{
+            console.log("should flip to false");
+            this.setState({attemptingEdit: false})
+        }
+    }
+
     deleteChild = () =>{
         console.log("get rid of the kid here")
         axiosWithAuth().delete(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`)
@@ -89,12 +101,13 @@ class Child extends Component{
 
     render(){
         //this.submitUpdate({test: 'object'});
-        //console.log(this.state);
+        console.log(this.state.attemptingEdit);
         return (
             <div>
                 <h2>{this.state.childName}</h2>
 
                 <button onClick={e => this.attemptDelete(e)}>Delete Child Record</button>
+                <button onClick={e => this.attemptEdit(e)}>Edit Demographics</button>
                 {this.state.attemptDelete && (
                     <div>
                         <p>Are you sure you wish to delete this Child's Records? It can not be undone</p>
