@@ -19,15 +19,37 @@ class CommunityForm extends Component{
 
     componentDidMount(){
         axiosWithAuth().get('https://intl-child-backend.herokuapp.com/api/countries')
-            .then(res => console.log(res))
+            .then(res => {
+                this.setState({
+                    countries: res.data
+                })
+            })
             .catch(err => console.log(err))
+    }
+
+    dropdownChange = e =>{
+        this.setState({
+            selected: this.refs.countrySelector.value
+        })
+    }
+
+    formSubmit = e =>{
+        e.preventDefault();
+        const newCommunity={
+            name: this.state.community,
+            city: this.state.city
+        }
+        axiosWithAuth().post(`https://intl-child-backend.herokuapp.com/api/communities/${this.state.selected}`, newCommunity)
+            .then(res => console.log('here\'s the result', res))
+            .catch(err => console.log(err));
+
     }
 
     render(){
         return(
             <div>
                 <h1>New Community</h1>
-                <form>
+                <form onSubmit={e=> this.formSubmit(e)}>
                     <label>
                         Country:
                         <select onChange={e => this.dropdownChange(e)} ref="countrySelector">
