@@ -28,10 +28,19 @@ class Child extends Component{
     }
 
 
-    submitUpdate (updatedChild){
-        console.log("is this where I\'m putting")
+    submitUpdate = (updatedChild) => {
+        console.log(updatedChild);
+        console.log('in updated child function');
         axiosWithAuth().put(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`, updatedChild)
-            .then(res => console.log(res))
+            .then(res => {
+                this.setState({
+                    childName: res.data.name,
+                    contact: res.data.contact,
+                    dob: this.normalizeDate(res.data.dob),
+                    guardian: res.data.guardian,
+                    sex: res.data.sex
+                })
+            })
             .catch(err => console.log(err, 'error from submitUpdate'));
     }
 
@@ -79,7 +88,7 @@ class Child extends Component{
 
 
     render(){
-        this.submitUpdate({test: 'object'});
+        //this.submitUpdate({test: 'object'});
         //console.log(this.state);
         return (
             <div>
@@ -100,7 +109,7 @@ class Child extends Component{
                         contact={this.state.contact}
                         sex={this.state.sex}
                         dob={this.state.dob}
-                        submitUpdate={() => this.submitUpdate()}    
+                        submitUpdate={this.submitUpdate}    
                     />
                 )}
                 {this.state.deleteSuccess && <Redirect to={`/countries/${this.state.countryId}/${this.state.communityId}`} />}

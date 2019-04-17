@@ -26,10 +26,12 @@ class ChildEdit extends Component{
         e.preventDefault();
 
         const updatedChild = {
-            ...this.props
+            ...this.state
         }
+
+        console.log(updatedChild);
         delete updatedChild.submitUpdate;
-        this.state.submitUpdate(updatedChild);
+        this.props.submitUpdate(updatedChild);
     }
 
 
