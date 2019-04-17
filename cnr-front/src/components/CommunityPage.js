@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NewChildForm from './NewChildForm';
 import axiosWithAuth from './axiosWithAuth';
 import { Redirect, Link } from 'react-router-dom';
+import CommunityEditForm from './CommunityEditForm';
 
 class CommunityPage extends Component {
     constructor(props){
@@ -15,7 +16,8 @@ class CommunityPage extends Component {
             countryId: null,
             communityId: null,
             deletingCommunity: false,
-            deletedCommunity: false
+            deletedCommunity: false,
+            editingCommunity: false
         }
     }
     
@@ -28,7 +30,7 @@ class CommunityPage extends Component {
 
         axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/communities/${url_array[2]}/${url_array[3]}`)
             .then(res => {
-                console.log(res.data.children);
+                //console.log(res.data.children);
                 this.setState({
                     children: res.data.children,
                     community: res.data.community,
@@ -57,7 +59,7 @@ class CommunityPage extends Component {
     checkNewChild = () =>{
         const communityId = this.props.history.location.pathname;
         const url_array = communityId.split('/');
-        console.log("axios call to retreive children");
+        //console.log("axios call to retreive children");
 
         axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/communities/${url_array[2]}/${url_array[3]}`)
             .then(res => {
@@ -93,9 +95,34 @@ class CommunityPage extends Component {
             .catch(err => console.log(err));
     }
 
+    updateCommunity = (updated) =>{
+        //console.log(updated);
+        //console.log(this.state.countryId);
+        //console.log(this.state.communityId);
+        axiosWithAuth().put(`https://intl-child-backend.herokuapp.com/api/communities/${this.state.countryId}/${this.state.communityId}`, updated)
+            .then(res => {this.setState({
+                city: res.data.city,
+                community: res.data.community
+            })})
+            .catch(err => console.log(err));
+    }
+
+    toggleEdit = () =>{
+        if (this.state.editingCommunity){
+            this.setState({
+                editingCommunity: false
+            })
+        }
+        else{
+            this.setState({
+                editingCommunity: true
+            })
+        }
+    }
+
 
     render(){
-        console.log(this.state.deletingCommunity);
+        console.log(this.state);
         return(
             <div className="communityContainer">
                 <h1>{this.state.community}</h1>
@@ -127,6 +154,19 @@ class CommunityPage extends Component {
                 )}
 
                 {this.state.deletedCommunity && <Redirect to='/countries' />}
+
+                <button onClick={() => this.toggleEdit()}>Edit Community</button>
+
+                {this.state.editingCommunity && (
+                    <div>
+                        <CommunityEditForm 
+                            submitUpdate={this.updateCommunity}
+                            city={this.state.city}
+                            community={this.state.community}
+                        />
+                        <button onClick={() => this.toggleEdit()}>Cancel</button>
+                    </div>
+                )}
 
 
             </div>
