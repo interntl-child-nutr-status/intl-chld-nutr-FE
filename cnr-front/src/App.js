@@ -7,7 +7,8 @@ import CommunityList from './components/CommunityList';
 import { Route, Link } from 'react-router-dom';
 import CommunityPage from './components/CommunityPage';
 import PrivateRoute from './PrivateRoute';
-import CommunityForm from './components/CommunityForm'
+import CommunityForm from './components/CommunityForm';
+import Child from './components/Child';
 
 class App extends Component {
   constructor(){
@@ -41,6 +42,7 @@ class App extends Component {
         <CommunityForm />
 
         <PrivateRoute path='/newUser' component = {NewUser} admin={true} />
+        <Route exact path='/children/:childID' component={Child} />
         <Route exact path='/' render={(props) => <SignIn {...props} signIn={this.signIn}/>} />
         <Route exact path='/countries' component = {CountryList} />
         <Route exact path='/countries/:countryID' component = {CommunityList} />

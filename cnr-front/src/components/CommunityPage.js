@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NewChildForm from './NewChildForm';
 import axiosWithAuth from './axiosWithAuth';
+import { Link } from 'react-router-dom';
 
 class CommunityPage extends Component {
     constructor(props){
@@ -51,8 +52,29 @@ class CommunityPage extends Component {
         }
     }
 
+    checkNewChild = () =>{
+        const communityId = this.props.history.location.pathname;
+        const url_array = communityId.split('/');
+        console.log("axios call to retreive children");
+
+        axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/communities/${url_array[2]}/${url_array[3]}`)
+            .then(res => {
+                console.log(res.data.children);
+                this.setState({
+                    children: res.data.children,
+                    community: res.data.community,
+                    city: res.data.city,
+                    country: res.data.country,
+                    countryId: url_array[2],
+                    communityId: url_array[3]
+                })
+            })
+            .catch(err => console.log(err))
+    }
+
 
     render(){
+        console.log('children here: ',this.state.children);
         return(
             <div className="communityContainer">
                 <h1>{this.state.community}</h1>
@@ -60,7 +82,10 @@ class CommunityPage extends Component {
 
                 {this.state.children.map(child =>{
                     return(
-                        <div key={child.id}><span>{child.name}</span></div>
+                        <Link to={`/children/${child.id}`} key={child.id}>
+                            <h3>{child.name}</h3>
+                            <p>Age: {child.age} months</p>
+                        </Link>
                     )
                 })}
 
@@ -68,6 +93,7 @@ class CommunityPage extends Component {
                 {this.state.addingChild && <NewChildForm
                     countryId={this.state.countryId}
                     communityId={this.state.communityId}
+                    checkNewChild={this.checkNewChild}
                 />}
             </div>
         )

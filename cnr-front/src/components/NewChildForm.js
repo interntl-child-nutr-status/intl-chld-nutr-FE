@@ -48,7 +48,7 @@ class NewChildForm extends Component{
         //Will call axios.post when ready
 
         axiosWithAuth().post('https://intl-child-backend.herokuapp.com/api/children', newChild)
-            .then(res => console.log(res))
+            .then(res => this.props.checkNewChild())
             .catch(err => console.log(err));
 
 
