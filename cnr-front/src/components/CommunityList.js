@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Community from './Community';
 import { Link } from 'react-router-dom';
 import axiosWithAuth from './axiosWithAuth';
-import { StyledDiv } from '../styled/List';
+import { StyledDiv, NoDataP } from '../styled/List';
 import { StyledHeaderTwo } from '../styled/form';
 
 
@@ -52,7 +52,7 @@ class CommunityList extends Component {
                 {this.state.communities.map(comm => {
                     return(<Link key={comm.id} to={`${this.props.history.location.pathname}/${comm.id}`}><Community name={comm.community} city={comm.city} /> </Link>)
                 })}
-                {this.state.empty && (<p>This country doesn't have any active communities. Add one from the "View Countries" page to get started!</p>)}
+                {this.state.empty && (<NoDataP>This country doesn't have any active communities. Add one from the "View Countries" page to get started!</NoDataP>)}
             </StyledDiv>
         )
     }

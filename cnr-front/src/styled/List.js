@@ -16,3 +16,8 @@ export const StyledButton = styled.button`
     height: 40px;
     margin-bottom: 20px;
 `;
+
+export const NoDataP = styled.p`
+    font-size: 2.4rem
+    color: #7f9ac6;
+`;

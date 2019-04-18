@@ -3,6 +3,7 @@ import NewChildForm from './NewChildForm';
 import axiosWithAuth from './axiosWithAuth';
 import { Redirect, Link } from 'react-router-dom';
 import CommunityEditForm from './CommunityEditForm';
+import { NoDataP } from '../styled/List';
 
 class CommunityPage extends Component {
     constructor(props){
@@ -84,7 +85,8 @@ class CommunityPage extends Component {
                     city: res.data.city,
                     country: res.data.country,
                     countryId: url_array[2],
-                    communityId: url_array[3]
+                    communityId: url_array[3],
+                    noChildren: false
                 })
             })
             .catch(err => console.log(err))
@@ -142,7 +144,7 @@ class CommunityPage extends Component {
                 <h1>{this.state.community}</h1>
                 <h2>{this.state.city}</h2>
 
-                {this.state.noChildren && <p>There are no children being screened in this community. Click below to add a child.</p>}
+                {this.state.noChildren && <NoDataP>There are no children being screened in this community. Click below to add a child.</NoDataP>}
 
                 {this.state.children.map(child =>{
                     return(
