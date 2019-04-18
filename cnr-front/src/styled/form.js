@@ -23,6 +23,10 @@ export const StyledForm = styled.form`
     border-radius: 10px;
 `;
 
+export const StyledNewChild = styled(StyledForm)`
+    width: 80%;
+`;
+
 export const StyledLabel = styled.label`
     margin: 10px auto;
     display: flex;
@@ -79,4 +83,9 @@ export const StyledSelect = styled.select`
     height: 35px;
     font-size: 2rem;
     color: #7f9ac6;
+`;
+
+export const DeletingP = styled.p`
+    color: #7f9ac6;
+    font-size: 2rem;
 `;

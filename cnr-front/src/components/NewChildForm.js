@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axiosWithAuth from './axiosWithAuth';
+import { StyledNewChild, SmallerLabel, SmallerInput, StyledSelect, StyledSubmit } from '../styled/form';
 
 class NewChildForm extends Component{
     constructor(props){
@@ -58,55 +59,55 @@ class NewChildForm extends Component{
         console.log(this.props.community)
         return(
             <div>
-                <form onSubmit = {e => this.submitForm(e)}>
-                    <label>
+                <StyledNewChild onSubmit = {e => this.submitForm(e)}>
+                    <SmallerLabel>
                         Name:
-                        <input 
+                        <SmallerInput 
                             type='text'
                             name='name'
                             value={this.state.name} 
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Date of Birth (MMDDYYYY):
-                        <input 
+                        <SmallerInput 
                             type='text'
                             value={this.state.dateOfBirth}
                             name='dateOfBirth' 
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Sex:
-                        <select ref='sexSelector' onChange={e => this.dropdownChange(e)}>
+                        <StyledSelect ref='sexSelector' onChange={e => this.dropdownChange(e)}>
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                             <option value="I">Other</option>
-                        </select>
-                    </label>
-                    <label>
+                        </StyledSelect>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Primary Guardian:
-                        <input 
+                        <SmallerInput 
                             type='text'
                             name="guardian"
                             value={this.state.guardian} 
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Phone Number (###-###-####):
-                        <input 
+                        <SmallerInput 
                             type='text'
                             name='contact'
                             value={this.state.contact} 
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
+                    </SmallerLabel>
                     <label>
-                        <input type='submit' />
+                        <StyledSubmit type='submit' />
                     </label>
-                </form>
+                </StyledNewChild>
             </div>
         )
     }

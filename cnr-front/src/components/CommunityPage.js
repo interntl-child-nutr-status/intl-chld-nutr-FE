@@ -3,8 +3,9 @@ import NewChildForm from './NewChildForm';
 import axiosWithAuth from './axiosWithAuth';
 import { Redirect, Link } from 'react-router-dom';
 import CommunityEditForm from './CommunityEditForm';
-import { NoDataP, StyledDivList, StyledForMultipleButtons } from '../styled/List';
+import { NoDataP, StyledDivList, StyledForMultipleButtons, DeleteButton } from '../styled/List';
 import { StyledDiv, StyledP, StyledHeader } from '../styled/ListItem';
+import { StyledHeader as StyledH, StyledHeaderTwo, DeletingP } from '../styled/form'
 
 class CommunityPage extends Component {
     constructor(props){
@@ -149,8 +150,8 @@ class CommunityPage extends Component {
     render(){
         return(
             <StyledDivList>
-                <h1>{this.state.community}</h1>
-                <h2>{this.state.city}</h2>
+                <StyledH>{this.state.community}</StyledH>
+                <StyledHeaderTwo>{this.state.city}</StyledHeaderTwo>
 
                 {this.state.noChildren && <NoDataP>There are no children being screened in this community. Click below to add a child.</NoDataP>}
 
@@ -179,9 +180,9 @@ class CommunityPage extends Component {
 
                 {this.state.deletingCommunity && (
                     <div>
-                        <p>Are you sure you wish to delete this Community? All child records will be lost. This can not be undone.</p>
-                        <button onClick={() => this.deleteCommunity()}>Yes</button>
-                        <button onClick={() => this.deleteToggle()} >No</button>
+                        <DeletingP>Are you sure you wish to delete this Community? All child records will be lost. This can not be undone.</DeletingP>
+                        <DeleteButton onClick={() => this.deleteCommunity()}>Yes</DeleteButton>
+                        <StyledForMultipleButtons onClick={() => this.deleteToggle()} >No</StyledForMultipleButtons>
                     </div>
                 )}
 
@@ -196,7 +197,6 @@ class CommunityPage extends Component {
                             city={this.state.city}
                             community={this.state.community}
                         />
-                        <button onClick={() => this.toggleEdit()}>Cancel</button>
                     </div>
                 )}
 

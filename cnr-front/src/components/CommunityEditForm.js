@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StyledForm, SmallerLabel, SmallerInput, StyledSubmit } from '../styled/form';
 
 class CommunityEditForm extends Component{
     constructor(props){
@@ -26,27 +27,27 @@ class CommunityEditForm extends Component{
     render(){
         return(
             <div>
-                <form onSubmit={e => this.formSubmit(e)}>
-                    <label>
+                <StyledForm onSubmit={e => this.formSubmit(e)}>
+                    <SmallerLabel>
                         City:
-                        <input 
+                        <SmallerInput 
                             type='text'
                             value={this.state.cityName}
                             onChange={e => this.handleChange(e)}
                             name='cityName'
                         />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Community:
-                        <input 
+                        <SmallerInput 
                             type='text'
                             value={this.state.communityName}
                             onChange={e => this.handleChange(e)}
                             name='communityName'
                         />
-                    </label>
-                    <input type='submit'/>
-                </form>
+                    </SmallerLabel>
+                    <StyledSubmit type='submit'/>
+                </StyledForm>
             </div>
         )
     }

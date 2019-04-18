@@ -17,6 +17,17 @@ export const StyledButton = styled.button`
     margin-bottom: 20px;
 `;
 
+export const DeleteButton = styled(StyledButton)`
+    color: #c96868;
+    border: 2px solid #c96868;
+    width: 30%;
+
+    &:hover{
+        color: white;
+        background: #c96868
+    }
+`;
+
 export const NoDataP = styled.p`
     font-size: 2.4rem
     color: #7f9ac6;
