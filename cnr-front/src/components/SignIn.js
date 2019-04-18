@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { StyledForm, StyledLabel, StyledInput, StyledSubmit, StyledHeader, StyledHeaderTwo } from '../styled/form';
 
 class SignIn extends Component{
     constructor(props){
@@ -41,29 +42,29 @@ class SignIn extends Component{
     render(){
         return(
             <div className='signIn'>
-                <h1>Welcome to Child Nutrition Tracking</h1>
-                <h2>Please sign in to continue</h2>
-                <form onSubmit={e => this.submitForm(e)}>
-                    <label>
-                        Username:
-                        <input 
+                <StyledHeader>Welcome to Child Nutrition Tracking</StyledHeader>
+                <StyledHeaderTwo>Please sign in to continue</StyledHeaderTwo>
+                <StyledForm onSubmit={e => this.submitForm(e)}>
+                    <StyledLabel>
+                        Username
+                        <StyledInput 
                             type='text' 
                             onChange={e => this.handleChanges(e)}
                             name='username'
                             value={this.state.username}
                             />
-                    </label>
-                    <label>
-                        Password:
-                        <input 
+                    </StyledLabel>
+                    <StyledLabel>
+                        Password
+                        <StyledInput 
                             type='password' 
                             name='password'
                             value={this.state.password}
                             onChange={e => this.handleChanges(e)}
                         />
-                    </label>
-                    <input type='submit'></input>
-                </form>
+                    </StyledLabel>
+                    <StyledSubmit type='submit'></StyledSubmit>
+                </StyledForm>
                 {this.state.loggedIn && <Redirect to='/countries' />}
             </div>
         )
