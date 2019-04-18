@@ -149,6 +149,12 @@ class Child extends Component{
             .catch(err => console.log(err));
     }
 
+    editScreen = (id, screenData) =>{
+        axiosWithAuth().put(`https://intl-child-backend.herokuapp.com/api/screenings/${this.state.childId}/${id}`, screenData)
+            .then(res => this.getScreenings())
+            .catch(err =>console.log(err));
+    }
+
 
     render(){
         return (
@@ -165,6 +171,7 @@ class Child extends Component{
                         {this.state.screenings.map( screening => {
                             return(
                                 <ScreeningData 
+                                    editScreen={this.editScreen}
                                     deleteScreen={this.deleteScreen}
                                     id={screening.id}
                                     key={screening.id} 

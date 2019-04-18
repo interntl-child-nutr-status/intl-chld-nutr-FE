@@ -4,7 +4,10 @@ class ScreeningData extends Component{
     constructor(props){
         super(props);
         this.state={
-            updatedDate: ''
+            updatedDate: '',
+            height: props.height,
+            weight: props.weight,
+            updating: false
         }
     }
 
@@ -41,7 +44,37 @@ class ScreeningData extends Component{
         this.props.deleteScreen(this.props.id)
     }
 
+    attemptUpdate = () =>{
+        if (this.state.updating){
+            this.setState({
+                updating: false
+            })
+        }
+        else{
+            this.setState({
+                updating: true
+            })
+        }
+    }
 
+    handleChange = e =>{
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    editForm = e =>{
+        e.preventDefault();
+        const updatedScreen = {
+            height: parseInt(this.state.height, 10),
+            weight: parseInt(this.state.weight, 10)
+        }
+        console.log(updatedScreen);
+        this.props.editScreen(this.props.id, updatedScreen);
+        this.setState({
+            updating: false
+        })
+    }
 
 
     render(){
@@ -52,8 +85,32 @@ class ScreeningData extends Component{
                 <span>{this.props.weight}</span>
                 <span>
                     <button onClick={e => this.deleteScreen(e)}>Delete this Screening</button>
-                    <button>Edit this Screening</button>
+                    <button onClick={() => this.attemptUpdate()}>Edit this Screening</button>
                 </span>
+                {this.state.updating && (
+                    <form onSubmit={e => this.editForm(e)}>
+                        <label>
+                            Height:
+                            <input 
+                                type='text'
+                                value={this.state.height}
+                                name="height"
+                                onChange={e => this.handleChange(e)}
+                            />
+                        </label>
+                        <label>
+                            Weight:
+                            <input 
+                                type='text'
+                                value={this.state.weight}
+                                name="weight"
+                                onChange={e => this.handleChange(e)}
+                            />
+                        </label>
+                        <input type='submit' />
+                    </form>
+                    )
+                }
             </div>
         )
     }
