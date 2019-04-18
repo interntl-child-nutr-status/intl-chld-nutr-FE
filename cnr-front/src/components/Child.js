@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axiosWithAuth from './axiosWithAuth';
 import { Redirect } from 'react-router-dom';
 import ChildEdit from './ChildEdit';
+import ScreeningForm from './ScreeningForm';
+import ScreeningData from './ScreeningData';
 
 class Child extends Component{
     constructor(props){
@@ -21,12 +23,54 @@ class Child extends Component{
             age: null,
             attemptingEdit: false,
             noScreenings: false,
-            loading: true
+            loading: true,
+            addScreening: false
         }
     }
 
     normalizeDate = string =>{
         return  string.substring(5, 7) + string.substring(8, 10) + string.substring(0, 4)
+    }
+
+    getScreenings = () =>{
+        axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`)
+        .then(res => {
+            console.log('initial api call');
+            //console.log(this.normalizeDate(res.data.dob))
+            this.setState({
+                communityId: res.data.community_id,
+                countryId: res.data.country_id,
+                childName: res.data.name,
+                age: res.data.age,
+                dob: this.normalizeDate(res.data.dob),
+                guardian: res.data.guardian,
+                contact: res.data.contact,
+                sex: res.data.sex
+            })
+        })
+        .then(() => {
+            axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/screenings/${this.state.childId}`)
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    screenings: res.data,
+                    noScreenings: false,
+                    loading: false
+                })
+            })
+            .catch(err => {
+                if (err.response.status === 404){
+                    this.setState({
+                        noScreenings: true,
+                        loading: false
+                    })
+                }
+                else{
+                    console.log(err);
+                }
+            })
+        })
+        .catch(err => console.log(err));
     }
 
 
@@ -47,43 +91,7 @@ class Child extends Component{
     }
 
     componentDidMount(){
-        axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`)
-            .then(res => {
-                console.log('initial api call');
-                //console.log(this.normalizeDate(res.data.dob))
-                this.setState({
-                    communityId: res.data.community_id,
-                    countryId: res.data.country_id,
-                    childName: res.data.name,
-                    age: res.data.age,
-                    dob: this.normalizeDate(res.data.dob),
-                    guardian: res.data.guardian,
-                    contact: res.data.contact,
-                    sex: res.data.sex
-                })
-            })
-            .then(() => {
-                axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/screenings/${this.state.childId}`)
-                .then(res => {
-                    this.setState({
-                        screenings: res.data,
-                        noScreenings: false,
-                        loading: false
-                    })
-                })
-                .catch(err => {
-                    if (err.response.status === 404){
-                        this.setState({
-                            noScreenings: true,
-                            loading: false
-                        })
-                    }
-                    else{
-                        console.log(err);
-                    }
-                })
-            })
-            .catch(err => console.log(err));
+        this.getScreenings();
     }
 
     attemptDelete = e =>{
@@ -108,6 +116,19 @@ class Child extends Component{
         }
     }
 
+    attemptAdd = e =>{
+        if(this.state.addScreening){
+            this.setState({
+                addScreening: false
+            })
+        }
+        else{
+            this.setState({
+                addScreening: true
+            })
+        }
+    }
+
     deleteChild = () =>{
         console.log("get rid of the kid here")
         axiosWithAuth().delete(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`)
@@ -115,7 +136,18 @@ class Child extends Component{
             .catch(err => console.log(err));
     }
 
+    submitScreen = newScreening =>{
+        console.log(newScreening);
+        axiosWithAuth().post(`https://intl-child-backend.herokuapp.com/api/screenings/${this.state.childId}`, newScreening)
+            .then(res => this.getScreenings())
+            .catch(err =>  console.log(err));
+    }
 
+    deleteScreen = id =>{
+        axiosWithAuth().delete(`https://intl-child-backend.herokuapp.com/api/screenings/${this.state.childId}/${id}`)
+            .then(res => this.getScreenings())
+            .catch(err => console.log(err));
+    }
 
 
     render(){
@@ -123,8 +155,29 @@ class Child extends Component{
             <div>
                 <h2>{this.state.childName}</h2>
                 {this.state.loading && <p>Loading Child Screening Data</p>}
-                {this.state.noScreenings && <p>Look's like this child hasn't been screened. Click below to add the first screening</p>}
+                {this.state.noScreenings && <p>Looks like this child hasn't been screened. Click below to add the first screening</p>}
 
+                {!this.state.noScreenings && (
+                    <div>
+                        <span>Date</span>
+                        <span>Height (cm)</span>
+                        <span>Weight (kg)</span>
+                        {this.state.screenings.map( screening => {
+                            return(
+                                <ScreeningData 
+                                    deleteScreen={this.deleteScreen}
+                                    id={screening.id}
+                                    key={screening.id} 
+                                    height={screening.height} 
+                                    weight={screening.weight} 
+                                    date={screening.screen_date} 
+                                />
+                            )
+                        })}
+                    </div>
+                )}
+
+                <button onClick={e => this.attemptAdd(e)}>Add Screening Data</button>
                 <button onClick={e => this.attemptDelete(e)}>Delete Child Record</button>
                 <button onClick={e => this.attemptEdit(e)}>Edit Demographics</button>
                 {this.state.attemptDelete && (
@@ -134,6 +187,7 @@ class Child extends Component{
                         <button onClick={e => this.attemptDelete(e)} >No</button>
                     </div>
                 )}
+                {this.state.addScreening && <ScreeningForm submitScreen={this.submitScreen}/>}
                 {this.state.attemptingEdit && (
                     <ChildEdit 
                         name={this.state.childName}

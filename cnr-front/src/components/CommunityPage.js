@@ -17,7 +17,8 @@ class CommunityPage extends Component {
             communityId: null,
             deletingCommunity: false,
             deletedCommunity: false,
-            editingCommunity: false
+            editingCommunity: false,
+            noChildren: false
         }
     }
     
@@ -31,14 +32,27 @@ class CommunityPage extends Component {
         axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/communities/${url_array[2]}/${url_array[3]}`)
             .then(res => {
                 //console.log(res.data.children);
-                this.setState({
-                    children: res.data.children,
-                    community: res.data.community,
-                    city: res.data.city,
-                    country: res.data.country,
-                    countryId: url_array[2],
-                    communityId: url_array[3]
-                })
+                if (res.data.children.length === 0){
+                    this.setState({
+                        children: res.data.children,
+                        community: res.data.community,
+                        city: res.data.city,
+                        country: res.data.country,
+                        countryId: url_array[2],
+                        communityId: url_array[3],
+                        noChildren: true
+                    })
+                }
+                else{
+                    this.setState({
+                        children: res.data.children,
+                        community: res.data.community,
+                        city: res.data.city,
+                        country: res.data.country,
+                        countryId: url_array[2],
+                        communityId: url_array[3]
+                    })
+                }
             })
             .catch(err => console.log(err))
        
@@ -127,6 +141,8 @@ class CommunityPage extends Component {
             <div className="communityContainer">
                 <h1>{this.state.community}</h1>
                 <h2>{this.state.city}</h2>
+
+                {this.state.noChildren && <p>There are no children being screened in this community. Click below to add a child.</p>}
 
                 {this.state.children.map(child =>{
                     return(
