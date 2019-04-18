@@ -12,7 +12,8 @@ class CommunityList extends Component {
         this.state={
             communities: [],
             country: '',
-            countryName: ''
+            countryName: '',
+            empty: false,
         }
 
     }
@@ -32,7 +33,8 @@ class CommunityList extends Component {
             })
             .catch(err => {
                 this.setState({
-                    countryName: localStorage.getItem('countryName')
+                    countryName: localStorage.getItem('countryName'),
+                    empty: true
                 })
             });
 
@@ -50,6 +52,7 @@ class CommunityList extends Component {
                 {this.state.communities.map(comm => {
                     return(<Link key={comm.id} to={`${this.props.history.location.pathname}/${comm.id}`}><Community name={comm.community} city={comm.city} /> </Link>)
                 })}
+                {this.state.empty && (<p>This country doesn't have any active communities. Add one from the "View Countries" page to get started!</p>)}
             </StyledDiv>
         )
     }

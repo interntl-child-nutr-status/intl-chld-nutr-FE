@@ -31,8 +31,12 @@ class SignIn extends Component{
             .then(res => {
                 console.log(res);
                 localStorage.setItem('token', res.data.token);
+                if(res.data.country){
                 localStorage.setItem('countryId', res.data.country.id);
                 localStorage.setItem('countryName', res.data.country.name);
+                }
+                //localStorage.setItem('countryId', res.data.country.id);
+                //localStorage.setItem('countryName', res.data.country.name);
                 localStorage.setItem('adminStatus', res.data.is_admin);
                 this.props.signIn()
                 this.setState({loggedIn: true})
