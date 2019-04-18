@@ -29,8 +29,10 @@ class SignIn extends Component{
 
         axios.post('https://intl-child-backend.herokuapp.com/api/auth/login', user)
             .then(res => {
-                console.log(res.data);
+                console.log(res);
                 localStorage.setItem('token', res.data.token);
+                localStorage.setItem('countryId', res.data.country.id);
+                localStorage.setItem('countryName', res.data.country.name);
                 localStorage.setItem('adminStatus', res.data.is_admin);
                 this.props.signIn()
                 this.setState({loggedIn: true})

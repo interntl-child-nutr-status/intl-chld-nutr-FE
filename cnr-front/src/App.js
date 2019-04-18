@@ -8,6 +8,7 @@ import { Route, Link } from 'react-router-dom';
 import CommunityPage from './components/CommunityPage';
 import PrivateRoute from './PrivateRoute';
 import Child from './components/Child';
+import { StyledNav, StyledDiv, StyledP } from './styled/Nav';
 
 class App extends Component {
   constructor(){
@@ -26,17 +27,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <nav>
-          {localStorage.getItem('adminStatus')==='true' &&<Link to='/newUser'>Add a User</Link>}
-          {localStorage.getItem('token') && <Link onClick={() => {
+        <StyledNav>
+          {localStorage.getItem('adminStatus')==='true' && <StyledDiv><Link to='/newUser'><StyledP>Add a User</StyledP></Link></StyledDiv>}
+          {localStorage.getItem('token') && <StyledDiv><Link onClick={() => {
               localStorage.removeItem('adminStatus')
               localStorage.removeItem('token')
               this.setState({
                 loggedIn: false
               })
-            }} to='/'>Log Out</Link>}
-          {localStorage.getItem('token') && <Link to='/countries'>View Countries</Link>}
-        </nav>
+            }} to='/'><StyledP>Log Out</StyledP></Link> </StyledDiv>}
+          {localStorage.getItem('token') && <StyledDiv><Link to='/countries'><StyledP>View Countries</StyledP></Link></StyledDiv>}
+        </StyledNav>
 
         <PrivateRoute path='/newUser' component = {NewUser} admin={true} />
         <Route exact path='/children/:childID' component={Child} />

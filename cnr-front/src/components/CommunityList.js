@@ -30,7 +30,11 @@ class CommunityList extends Component {
                     countryName: res.data[0].country
                  })
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.setState({
+                    countryName: localStorage.getItem('countryName')
+                })
+            });
 
 
 
