@@ -19,13 +19,26 @@ class CommunityForm extends Component{
     }
 
     componentDidMount(){
-        axiosWithAuth().get('https://intl-child-backend.herokuapp.com/api/countries')
-            .then(res => {
-                this.setState({
-                    countries: res.data
-                })
+
+        if(localStorage.getItem('countryName')){
+            this.setState({
+                countries:[
+                    {
+                        id: localStorage.getItem('countryId'),
+                        country: localStorage.getItem('countryName')
+                    }
+                ]
             })
-            .catch(err => console.log(err))
+        }
+        else{
+            axiosWithAuth().get('https://intl-child-backend.herokuapp.com/api/countries')
+                .then(res => {
+                    this.setState({
+                        countries: res.data
+                    })
+                })
+                .catch(err => console.log(err))
+            }
     }
 
     dropdownChange = e =>{
@@ -55,6 +68,7 @@ class CommunityForm extends Component{
                     <DropdownLabel>
                         Country:
                         <StyledSelect onChange={e => this.dropdownChange(e)} ref="countrySelector">
+                            <option value='select'>Please Select a Country</option>
                             {this.state.countries.map(country =>{
                                 return(<option key={country.id} value={country.id}>{country.country}</option>)
                             })}
