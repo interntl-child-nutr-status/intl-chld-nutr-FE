@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axiosWithAuth from './axiosWithAuth'
+import { SmallerLabel, SmallerInput, StyledForm, DropdownLabel, StyledSubmit, StyledSelect } from '../styled/form'
 
 class CommunityForm extends Component{
     constructor(props){
@@ -50,35 +51,34 @@ class CommunityForm extends Component{
     render(){
         return(
             <div>
-                <h1>New Community</h1>
-                <form onSubmit={e=> this.formSubmit(e)}>
-                    <label>
+                <StyledForm onSubmit={e=> this.formSubmit(e)}>
+                    <DropdownLabel>
                         Country:
-                        <select onChange={e => this.dropdownChange(e)} ref="countrySelector">
+                        <StyledSelect onChange={e => this.dropdownChange(e)} ref="countrySelector">
                             {this.state.countries.map(country =>{
                                 return(<option key={country.id} value={country.id}>{country.country}</option>)
                             })}
-                        </select>
-                    </label>
-                    <label>
+                        </StyledSelect>
+                    </DropdownLabel>
+                    <SmallerLabel>
                         City:
-                        <input
+                        <SmallerInput
                             type='text'
                             name='city'
                             value={this.props.city}
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Community:
-                        <input 
+                        <SmallerInput 
                             type='text'
                             name='community'
                             value={this.props.community}
                             onChange={e => this.formChange(e)}/>
-                    </label>
-                    <input type='submit' />
-                </form>
+                    </SmallerLabel>
+                    <StyledSubmit type='submit' />
+                </StyledForm>
             </div>
         )
     }

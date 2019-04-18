@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Community from './Community';
 import { Link } from 'react-router-dom';
 import axiosWithAuth from './axiosWithAuth';
+import { StyledDiv } from '../styled/List';
+import { StyledHeaderTwo } from '../styled/form';
 
 
 class CommunityList extends Component {
@@ -39,12 +41,12 @@ class CommunityList extends Component {
 
     render(){
         return(
-            <div>
-                <h1>Communities in {this.state.countryName}</h1>
+            <StyledDiv>
+                <StyledHeaderTwo>Communities in {this.state.countryName}</StyledHeaderTwo>
                 {this.state.communities.map(comm => {
                     return(<Link key={comm.id} to={`${this.props.history.location.pathname}/${comm.id}`}><Community name={comm.community} city={comm.city} /> </Link>)
                 })}
-            </div>
+            </StyledDiv>
         )
     }
 }

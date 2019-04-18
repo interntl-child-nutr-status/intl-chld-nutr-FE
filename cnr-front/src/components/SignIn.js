@@ -65,7 +65,7 @@ class SignIn extends Component{
                     </StyledLabel>
                     <StyledSubmit type='submit'></StyledSubmit>
                 </StyledForm>
-                {this.state.loggedIn && <Redirect to='/countries' />}
+                {localStorage.getItem('token') && <Redirect to='/countries' />}
             </div>
         )
     }    

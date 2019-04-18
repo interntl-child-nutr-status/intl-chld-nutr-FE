@@ -9,6 +9,7 @@ export const StyledHeader = styled.h1`
 export const StyledHeaderTwo = styled.h2`
     font-size: 4.2rem;
     text-align: center;
+    margin-bottom: 20px;
     color:#7f9ac6;
 `;
 
@@ -30,6 +31,14 @@ export const StyledLabel = styled.label`
     color: white;
 `;
 
+export const SmallerLabel = styled(StyledLabel)`
+    font-size: 2.4rem;
+`;
+
+export const DropdownLabel = styled(SmallerLabel)`
+  width: 75%;  
+`;
+
 export const StyledInput = styled.input`
     margin-top: 10px;
     border: none;
@@ -37,6 +46,11 @@ export const StyledInput = styled.input`
     height: 50px;
     font-size: 3.2rem;
     color:#7f9ac6;
+`;
+
+export const SmallerInput = styled(StyledInput)`
+    font-size: 2rem;
+    height: 35px;
 `;
 
 export const StyledSubmit = styled.input`
@@ -54,4 +68,15 @@ export const StyledSubmit = styled.input`
         color: white;
         border: 2px solid white;
     }
+`;
+
+export const StyledSelect = styled.select`
+    max-width: 80%;
+    margin: auto;
+    border: none;
+    font-size: 2rem;
+    border-radius: 5px;
+    height: 35px;
+    font-size: 2rem;
+    color: #7f9ac6;
 `;
