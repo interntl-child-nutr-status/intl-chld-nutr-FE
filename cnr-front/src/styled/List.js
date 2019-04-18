@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledDiv = styled.div`
+export const StyledDivList = styled.div`
     width: 60%;
     margin: 20px auto;
     text-align: center;
@@ -20,4 +20,9 @@ export const StyledButton = styled.button`
 export const NoDataP = styled.p`
     font-size: 2.4rem
     color: #7f9ac6;
+`;
+
+export const StyledForMultipleButtons = styled(StyledButton)`
+    width: 30%;
+    margin: 20px 5px;
 `;

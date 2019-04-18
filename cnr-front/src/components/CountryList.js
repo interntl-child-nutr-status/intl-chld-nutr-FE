@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Country from './Country';
 import axiosWithAuth from "./axiosWithAuth.js";
 import CommunityForm from './CommunityForm';
-import { StyledDiv, StyledButton } from '../styled/List'
+import { StyledDivList, StyledButton } from '../styled/List'
 
 class CountryList extends Component{
     constructor(props){
@@ -46,14 +46,14 @@ class CountryList extends Component{
     render(){
         console.log(this.state.countries);
         return(
-            <StyledDiv>
+            <StyledDivList>
                 {this.state.countries.map(country =>{
                     return <Country key={country.id} id={country.id} name={country.country} communities={country.communities} />
                 })}
 
                 <StyledButton onClick={e => this.communityToggle(e)}>Add a Community</StyledButton>
                 {this.state.addingCommunity && <CommunityForm refresh={this.refreshCountries} />}
-            </StyledDiv>
+            </StyledDivList>
         )
     }
 }

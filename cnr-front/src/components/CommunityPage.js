@@ -3,7 +3,8 @@ import NewChildForm from './NewChildForm';
 import axiosWithAuth from './axiosWithAuth';
 import { Redirect, Link } from 'react-router-dom';
 import CommunityEditForm from './CommunityEditForm';
-import { NoDataP } from '../styled/List';
+import { NoDataP, StyledDivList, StyledForMultipleButtons } from '../styled/List';
+import { StyledDiv, StyledP, StyledHeader } from '../styled/ListItem';
 
 class CommunityPage extends Component {
     constructor(props){
@@ -67,7 +68,11 @@ class CommunityPage extends Component {
             this.setState({ addingChild: false })
         }
         else{
-            this.setState({ addingChild: true })
+            this.setState({ 
+                addingChild: true,
+                editingCommunity: false,
+                deletingCommunity: false,
+            })
         }
     }
 
@@ -100,7 +105,9 @@ class CommunityPage extends Component {
         }
         else{
             this.setState({
-                deletingCommunity: true
+                deletingCommunity: true,
+                editingCommunity: false,
+                addingChild: false
             })
         }
     }
@@ -131,16 +138,17 @@ class CommunityPage extends Component {
         }
         else{
             this.setState({
-                editingCommunity: true
+                editingCommunity: true,
+                addingChild: false,
+                deletingCommunity: false
             })
         }
     }
 
 
     render(){
-        console.log(this.state);
         return(
-            <div className="communityContainer">
+            <StyledDivList>
                 <h1>{this.state.community}</h1>
                 <h2>{this.state.city}</h2>
 
@@ -148,21 +156,27 @@ class CommunityPage extends Component {
 
                 {this.state.children.map(child =>{
                     return(
-                        <Link to={`/children/${child.id}`} key={child.id}>
-                            <h3>{child.name}</h3>
-                            <p>Age: {child.age} months</p>
-                        </Link>
+                        <StyledDiv key={child.id}>
+                            <Link to={`/children/${child.id}`} >
+                                <StyledHeader>{child.name}</StyledHeader>
+                                <StyledP>Age: {child.age} months</StyledP>
+                            </Link>
+                        </StyledDiv>
                     )
                 })}
 
-                <button onClick = {this.addChildToggle}>Add a Child</button>
+                <StyledForMultipleButtons onClick = {this.addChildToggle}>Add a Child</StyledForMultipleButtons>
+
+                <StyledForMultipleButtons onClick={() => this.toggleEdit()}>Edit Community</StyledForMultipleButtons>
+
+                <StyledForMultipleButtons onClick={() => this.deleteToggle()}>Delete this Community</StyledForMultipleButtons>
+
                 {this.state.addingChild && <NewChildForm
                     countryId={this.state.countryId}
                     communityId={this.state.communityId}
                     checkNewChild={this.checkNewChild}
                 />}
 
-                <button onClick={() => this.deleteToggle()}>Delete this Community</button>
                 {this.state.deletingCommunity && (
                     <div>
                         <p>Are you sure you wish to delete this Community? All child records will be lost. This can not be undone.</p>
@@ -173,7 +187,7 @@ class CommunityPage extends Component {
 
                 {this.state.deletedCommunity && <Redirect to='/countries' />}
 
-                <button onClick={() => this.toggleEdit()}>Edit Community</button>
+                
 
                 {this.state.editingCommunity && (
                     <div>
@@ -187,7 +201,7 @@ class CommunityPage extends Component {
                 )}
 
 
-            </div>
+            </StyledDivList>
         )
     }
 }
