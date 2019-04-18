@@ -19,7 +19,9 @@ class Child extends Component{
             communityId: null,
             countryId: null,
             age: null,
-            attemptingEdit: false
+            attemptingEdit: false,
+            noScreenings: false,
+            loading: true
         }
     }
 
@@ -47,7 +49,7 @@ class Child extends Component{
     componentDidMount(){
         axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/children/${this.state.childId}`)
             .then(res => {
-                //console.log(res);
+                console.log('initial api call');
                 //console.log(this.normalizeDate(res.data.dob))
                 this.setState({
                     communityId: res.data.community_id,
@@ -58,6 +60,27 @@ class Child extends Component{
                     guardian: res.data.guardian,
                     contact: res.data.contact,
                     sex: res.data.sex
+                })
+            })
+            .then(() => {
+                axiosWithAuth().get(`https://intl-child-backend.herokuapp.com/api/screenings/${this.state.childId}`)
+                .then(res => {
+                    this.setState({
+                        screenings: res.data,
+                        noScreenings: false,
+                        loading: false
+                    })
+                })
+                .catch(err => {
+                    if (err.response.status === 404){
+                        this.setState({
+                            noScreenings: true,
+                            loading: false
+                        })
+                    }
+                    else{
+                        console.log(err);
+                    }
                 })
             })
             .catch(err => console.log(err));
@@ -77,14 +100,10 @@ class Child extends Component{
     }
 
     attemptEdit = e =>{
-        console.log('attempting to edit');
-        console.log(this.state.attemptingEdit);
         if (!this.state.attemptingEdit){
-            console.log("should flip to true");
             this.setState({attemptingEdit: true})
         }
         else{
-            console.log("should flip to false");
             this.setState({attemptingEdit: false})
         }
     }
@@ -100,11 +119,11 @@ class Child extends Component{
 
 
     render(){
-        //this.submitUpdate({test: 'object'});
-        console.log(this.state.attemptingEdit);
         return (
             <div>
                 <h2>{this.state.childName}</h2>
+                {this.state.loading && <p>Loading Child Screening Data</p>}
+                {this.state.noScreenings && <p>Look's like this child hasn't been screened. Click below to add the first screening</p>}
 
                 <button onClick={e => this.attemptDelete(e)}>Delete Child Record</button>
                 <button onClick={e => this.attemptEdit(e)}>Edit Demographics</button>

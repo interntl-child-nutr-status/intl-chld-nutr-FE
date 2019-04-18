@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({component: Component, admin, ...rest}) =>{
     if (admin){
-        console.log(admin, localStorage.getItem('adminStatus'));
+        //console.log(admin, localStorage.getItem('adminStatus'));
         return(
             <Route
                 {...rest}

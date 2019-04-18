@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 class ChildEdit extends Component{
     constructor(props){
         super(props);
-        //onsole.log(props);
-
         this.state={
             ...props
         }
