@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Country from './Country';
 import axiosWithAuth from "./axiosWithAuth.js";
 import CommunityForm from './CommunityForm';
-import { StyledDivList, StyledButton } from '../styled/List'
+import { StyledDivList, StyledButton, NoDataP } from '../styled/List'
 
 class CountryList extends Component{
     constructor(props){
@@ -51,8 +51,11 @@ class CountryList extends Component{
                     return <Country key={country.id} id={country.id} name={country.country} communities={country.communities} />
                 })}
 
+{(this.state.countries.length === 1 && this.state.countries[0].communities == 0) || this.state.countries.length === 0 && <NoDataP>Welcome to Child Nutrition Tracking! Add a Commmunity below to get started.</NoDataP>}
+
                 <StyledButton onClick={e => this.communityToggle(e)}>Add a Community</StyledButton>
                 {this.state.addingCommunity && <CommunityForm refresh={this.refreshCountries} />}
+                
             </StyledDivList>
         )
     }
