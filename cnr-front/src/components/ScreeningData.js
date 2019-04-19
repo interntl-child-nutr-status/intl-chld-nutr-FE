@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DataHeaderDiv, IdSpan, DateSpan, HeightSpan, WeightSpan } from '../styled/Screenings';
 
 class ScreeningData extends Component{
     constructor(props){
@@ -79,39 +80,12 @@ class ScreeningData extends Component{
 
     render(){
         return(
-            <div>
-                <span>{this.state.updatedDate}</span>
-                <span>{this.props.height}</span>
-                <span>{this.props.weight}</span>
-                <span>
-                    <button onClick={e => this.deleteScreen(e)}>Delete this Screening</button>
-                    <button onClick={() => this.attemptUpdate()}>Edit this Screening</button>
-                </span>
-                {this.state.updating && (
-                    <form onSubmit={e => this.editForm(e)}>
-                        <label>
-                            Height:
-                            <input 
-                                type='text'
-                                value={this.state.height}
-                                name="height"
-                                onChange={e => this.handleChange(e)}
-                            />
-                        </label>
-                        <label>
-                            Weight:
-                            <input 
-                                type='text'
-                                value={this.state.weight}
-                                name="weight"
-                                onChange={e => this.handleChange(e)}
-                            />
-                        </label>
-                        <input type='submit' />
-                    </form>
-                    )
-                }
-            </div>
+            <DataHeaderDiv>
+                <DateSpan>{this.state.updatedDate}</DateSpan>
+                <HeightSpan>{this.props.height}</HeightSpan>
+                <WeightSpan>{this.props.weight}</WeightSpan>
+                <IdSpan>{this.props.id}</IdSpan>
+            </DataHeaderDiv>
         )
     }
 }

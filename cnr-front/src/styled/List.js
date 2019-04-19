@@ -28,6 +28,11 @@ export const DeleteButton = styled(StyledButton)`
     }
 `;
 
+export const SingleDelete = styled(DeleteButton)`
+    width: 50%;
+    margin: 10px auto 20px;
+`;
+
 export const NoDataP = styled.p`
     font-size: 2.4rem
     color: #7f9ac6;

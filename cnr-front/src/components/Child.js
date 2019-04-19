@@ -7,6 +7,10 @@ import ScreeningData from './ScreeningData';
 import { StyledHeaderTwo } from '../styled/form';
 import { NoDataP, StyledDivList, StyledForMultipleButtons, DeleteButton } from '../styled/List';
 import { DeletingP } from '../styled/form';
+import { DataDiv, ColumnHeader } from '../styled/Screenings';
+import ScreeningEdit from './ScreeningEdit';
+import ScreenDelete from './ScreenDelete';
+
 
 class Child extends Component{
     constructor(props){
@@ -19,7 +23,7 @@ class Child extends Component{
             guardian: '',
             contact: '',
             childId: parseInt(this.props.location.pathname.split('/')[2], 10),
-            attemptDelete: true,
+            attemptDelete: false,
             deleteSuccess: false,
             communityId: null,
             countryId: null,
@@ -27,7 +31,9 @@ class Child extends Component{
             attemptingEdit: false,
             noScreenings: false,
             loading: true,
-            addScreening: false
+            addScreening: false,
+            editScreening: false,
+            deleteScreening: false
         }
     }
 
@@ -107,7 +113,9 @@ class Child extends Component{
             this.setState({
                 attemptDelete: true,
                 addScreening: false,
-                attemptingEdit: false
+                attemptingEdit: false,
+                editScreening: false,
+                deleteScreening: false
             })
         }
     }
@@ -117,7 +125,9 @@ class Child extends Component{
             this.setState({
                 attemptingEdit: true,
                 attemptDelete: false,
-                addScreening: false
+                addScreening: false,
+                editScreening: false,
+                deleteScreening: false
             })
         }
         else{
@@ -137,7 +147,9 @@ class Child extends Component{
             this.setState({
                 addScreening: true,
                 attemptingEdit: false,
-                attemptDelete: false
+                attemptDelete: false,
+                editScreening: false,
+                deleteScreening: false
             })
         }
     }
@@ -168,6 +180,42 @@ class Child extends Component{
             .catch(err =>console.log(err));
     }
 
+    attemptScreenEdit = () =>{
+        if(this.state.editScreening){
+            this.setState({
+                editScreening: false,
+            })
+        }
+        else{
+            this.setState({
+                editScreening: true,
+                addScreening: false,
+                attemptingEdit: false,
+                attemptDelete: false,
+                deleteScreening: false
+
+            })
+        }
+    }
+
+    attemptScreenDelete = () =>{
+        if (this.state.deleteScreening){
+            this.setState({
+                deleteScreening: false
+            })
+        }
+        else{
+            this.setState({
+                deleteScreening: true,
+                attemptDelete: false,
+                addScreening: false,
+                attemptingEdit: false,
+                editScreening: false
+
+            })
+        }
+    }
+
 
     render(){
         return (
@@ -177,10 +225,13 @@ class Child extends Component{
                 {this.state.noScreenings && <NoDataP>Looks like this child hasn't been screened. Click below to add the first screening</NoDataP>}
 
                 {!this.state.noScreenings && (
-                    <div>
-                        <span>Date</span>
-                        <span>Height (cm)</span>
-                        <span>Weight (kg)</span>
+                    <DataDiv>
+                        <ColumnHeader>
+                            <span>Date</span>
+                            <span>Height (cm)</span>
+                            <span>Weight (kg)</span>
+                            <span>Screening Number</span>
+                        </ColumnHeader>
                         {this.state.screenings.map( screening => {
                             return(
                                 <ScreeningData 
@@ -194,12 +245,23 @@ class Child extends Component{
                                 />
                             )
                         })}
-                    </div>
+                    </DataDiv>
                 )}
 
                 <StyledForMultipleButtons onClick={e => this.attemptAdd(e)}>Add Screening Data</StyledForMultipleButtons>
                 <StyledForMultipleButtons onClick={e => this.attemptEdit(e)}>Edit Demographics</StyledForMultipleButtons>
                 <StyledForMultipleButtons onClick={e => this.attemptDelete(e)}>Delete Child Record</StyledForMultipleButtons>
+                <StyledForMultipleButtons onClick={e => this.attemptScreenDelete(e)}>Delete A Screening</StyledForMultipleButtons>
+                <StyledForMultipleButtons onClick={e => this.attemptScreenEdit(e)}>Edit A Screening</StyledForMultipleButtons>
+
+                {this.state.editScreening && (
+                    <ScreeningEdit 
+                        screenings={this.state.screenings} 
+                        editScreen={this.editScreen}
+                    />
+                )}
+
+                {this.state.deleteScreening && <ScreenDelete screenings={this.state.screenings} delete={this.deleteScreen}/>}
 
                 {this.state.attemptDelete && (
                     <div>

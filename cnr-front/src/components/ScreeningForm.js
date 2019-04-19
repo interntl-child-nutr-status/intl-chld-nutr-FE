@@ -21,10 +21,10 @@ class ScreeningForm extends Component {
         e.preventDefault();
         const newScreening = {
             screen_date: new Date(),
-            // height: parseInt(this.state.height, 10),
-            // weight: parseInt(this.state.weight, 10)
-            height: this.state.height,
-            weight: this.state.weight
+            height: parseInt(this.state.height, 10),
+            weight: parseInt(this.state.weight, 10)
+            //height: this.state.height,
+            //weight: this.state.weight
         }
 
         this.props.submitScreen(newScreening);

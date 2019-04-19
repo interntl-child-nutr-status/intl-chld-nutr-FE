@@ -58,10 +58,8 @@ class CommunityForm extends Component{
                 this.props.refresh();
             })
             .catch(err => console.log(err));
-
-
-
     }
+
 
     render(){
         return(
