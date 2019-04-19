@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axiosWithAuth from './axiosWithAuth';
+import { StyledHeaderTwo, StyledForm, SmallerLabel, DropdownLabel, StyledSelect, StyledInput, StyledSubmit } from '../styled/form';
 
 class NewUser extends Component{
     constructor(props){
@@ -69,35 +70,35 @@ class NewUser extends Component{
         //console.log(this.state)
         return(
             <div className="signUp">
-                <h2>Add A New User</h2>
-                <form onSubmit={e => this.formSubmit(e)}>
-                    <label>
+                <StyledHeaderTwo>Add A New User</StyledHeaderTwo>
+                <StyledForm onSubmit={e => this.formSubmit(e)}>
+                    <SmallerLabel>
                         Username:
-                        <input 
+                        <StyledInput 
                         name="username"
                         onChange={e => this.formChanges(e)}
                         value={this.state.username}
                         type='text' />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Password:
-                        <input 
+                        <StyledInput 
                         onChange={e => this.formChanges(e)}
                         name='password'
                         value={this.state.password}
                         type='password' />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <DropdownLabel>
                         Country:
-                        <select onChange={e => this.dropdownChange(e)} ref="countrySelector">
+                        <StyledSelect onChange={e => this.dropdownChange(e)} ref="countrySelector">
                             <option value="admin">N/A: Admin</option>
                             {this.state.countries.map(country =>{
                                 return(<option key={country.id} value={country.id}>{country.country}</option>)
                             })}
-                        </select>
-                    </label>
-                    <input type='submit' />
-                </form>
+                        </StyledSelect>
+                    </DropdownLabel>
+                    <StyledSubmit type='submit' />
+                </StyledForm>
             </div>
         )
     }
