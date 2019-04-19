@@ -36,6 +36,7 @@ export const SingleDelete = styled(DeleteButton)`
 export const NoDataP = styled.p`
     font-size: 2.4rem
     color: #7f9ac6;
+    margin-bottom: 20px;
 `;
 
 export const StyledForMultipleButtons = styled(StyledButton)`

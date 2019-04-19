@@ -221,8 +221,8 @@ class Child extends Component{
         return (
             <StyledDivList>
                 <StyledHeaderTwo>{this.state.childName}</StyledHeaderTwo>
-                {this.state.loading && <p>Loading Child Screening Data</p>}
-                {this.state.noScreenings && <NoDataP>Looks like this child hasn't been screened. Click below to add the first screening</NoDataP>}
+                <NoDataP>Age: {this.state.age} months</NoDataP>
+                {this.state.noScreenings && <NoDataP>It looks like this child hasn't been screened. Click below to add the first screening</NoDataP>}
 
                 {!this.state.noScreenings && (
                     <DataDiv>

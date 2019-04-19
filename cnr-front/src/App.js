@@ -30,8 +30,7 @@ class App extends Component {
         <StyledNav>
           {localStorage.getItem('adminStatus')==='true' && <StyledDiv><Link to='/newUser'><StyledP>Add a User</StyledP></Link></StyledDiv>}
           {localStorage.getItem('token') && <StyledDiv><Link onClick={() => {
-              localStorage.removeItem('adminStatus')
-              localStorage.removeItem('token')
+              localStorage.clear();
               this.setState({
                 loggedIn: false
               })
