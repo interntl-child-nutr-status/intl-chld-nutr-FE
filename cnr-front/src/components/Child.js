@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import ChildEdit from './ChildEdit';
 import ScreeningForm from './ScreeningForm';
 import ScreeningData from './ScreeningData';
+import { StyledHeaderTwo } from '../styled/form';
+import { NoDataP, StyledDivList, StyledForMultipleButtons } from '../styled/List';
 
 class Child extends Component{
     constructor(props){
@@ -16,7 +18,7 @@ class Child extends Component{
             guardian: '',
             contact: '',
             childId: parseInt(this.props.location.pathname.split('/')[2], 10),
-            attemptDelete: false,
+            attemptDelete: true,
             deleteSuccess: false,
             communityId: null,
             countryId: null,
@@ -102,17 +104,25 @@ class Child extends Component{
         }
         else{
             this.setState({
-                attemptDelete: true
+                attemptDelete: true,
+                addScreening: false,
+                attemptingEdit: false
             })
         }
     }
 
     attemptEdit = e =>{
         if (!this.state.attemptingEdit){
-            this.setState({attemptingEdit: true})
+            this.setState({
+                attemptingEdit: true,
+                attemptDelete: false,
+                addScreening: false
+            })
         }
         else{
-            this.setState({attemptingEdit: false})
+            this.setState({
+                attemptingEdit: false,
+            })
         }
     }
 
@@ -124,7 +134,9 @@ class Child extends Component{
         }
         else{
             this.setState({
-                addScreening: true
+                addScreening: true,
+                attemptingEdit: false,
+                attemptDelete: false
             })
         }
     }
@@ -158,10 +170,10 @@ class Child extends Component{
 
     render(){
         return (
-            <div>
-                <h2>{this.state.childName}</h2>
+            <StyledDivList>
+                <StyledHeaderTwo>{this.state.childName}</StyledHeaderTwo>
                 {this.state.loading && <p>Loading Child Screening Data</p>}
-                {this.state.noScreenings && <p>Looks like this child hasn't been screened. Click below to add the first screening</p>}
+                {this.state.noScreenings && <NoDataP>Looks like this child hasn't been screened. Click below to add the first screening</NoDataP>}
 
                 {!this.state.noScreenings && (
                     <div>
@@ -184,9 +196,10 @@ class Child extends Component{
                     </div>
                 )}
 
-                <button onClick={e => this.attemptAdd(e)}>Add Screening Data</button>
-                <button onClick={e => this.attemptDelete(e)}>Delete Child Record</button>
-                <button onClick={e => this.attemptEdit(e)}>Edit Demographics</button>
+                <StyledForMultipleButtons onClick={e => this.attemptAdd(e)}>Add Screening Data</StyledForMultipleButtons>
+                <StyledForMultipleButtons onClick={e => this.attemptEdit(e)}>Edit Demographics</StyledForMultipleButtons>
+                <StyledForMultipleButtons onClick={e => this.attemptDelete(e)}>Delete Child Record</StyledForMultipleButtons>
+
                 {this.state.attemptDelete && (
                     <div>
                         <p>Are you sure you wish to delete this Child's Records? It can not be undone</p>
@@ -206,7 +219,7 @@ class Child extends Component{
                     />
                 )}
                 {this.state.deleteSuccess && <Redirect to={`/countries/${this.state.countryId}/${this.state.communityId}`} />}
-            </div>
+            </StyledDivList>
         )
     }
 }
