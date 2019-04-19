@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StyledForm, SmallerLabel, SmallerInput, StyledSubmit } from '../styled/form';
 
 class ScreeningForm extends Component {
     constructor(props){
@@ -31,25 +32,25 @@ class ScreeningForm extends Component {
 
     render(){
         return(
-            <form onSubmit={e => this.submitForm(e)}>
-                <label>
+            <StyledForm onSubmit={e => this.submitForm(e)}>
+                <SmallerLabel>
                     Height (cm):
-                    <input
+                    <SmallerInput
                         type='text'
                         value={this.state.height}
                         name='height'
                         onChange={e => this.handleChange(e)} />
-                </label>
-                <label>
+                </SmallerLabel>
+                <SmallerLabel>
                     Weight (kg):
-                    <input
+                    <SmallerInput
                         type='text'
                         value={this.state.weight}
                         name='weight'
                         onChange={e => this.handleChange(e)} />
-                </label>
-                <input type='submit' />
-            </form>
+                </SmallerLabel>
+                <StyledSubmit type='submit' />
+            </StyledForm>
         )
     }
 }

@@ -5,7 +5,8 @@ import ChildEdit from './ChildEdit';
 import ScreeningForm from './ScreeningForm';
 import ScreeningData from './ScreeningData';
 import { StyledHeaderTwo } from '../styled/form';
-import { NoDataP, StyledDivList, StyledForMultipleButtons } from '../styled/List';
+import { NoDataP, StyledDivList, StyledForMultipleButtons, DeleteButton } from '../styled/List';
+import { DeletingP } from '../styled/form';
 
 class Child extends Component{
     constructor(props){
@@ -202,9 +203,9 @@ class Child extends Component{
 
                 {this.state.attemptDelete && (
                     <div>
-                        <p>Are you sure you wish to delete this Child's Records? It can not be undone</p>
-                        <button onClick={e => this.deleteChild(e)}>Yes</button>
-                        <button onClick={e => this.attemptDelete(e)} >No</button>
+                        <DeletingP>Are you sure you wish to delete this Child's Records? It can not be undone</DeletingP>
+                        <DeleteButton onClick={e => this.deleteChild(e)}>Yes</DeleteButton>
+                        <StyledForMultipleButtons onClick={e => this.attemptDelete(e)} >No</StyledForMultipleButtons>
                     </div>
                 )}
                 {this.state.addScreening && <ScreeningForm submitScreen={this.submitScreen}/>}

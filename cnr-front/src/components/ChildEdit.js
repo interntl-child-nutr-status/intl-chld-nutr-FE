@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StyledForm, SmallerLabel, DropdownLabel, StyledSubmit, SmallerInput, StyledSelect } from '../styled/form';
 
 class ChildEdit extends Component{
     constructor(props){
@@ -37,55 +38,55 @@ class ChildEdit extends Component{
     render(){
         return(
             <div>
-                <form onSubmit = {e => this.submitForm(e)}>
-                    <label>
+                <StyledForm onSubmit = {e => this.submitForm(e)}>
+                    <SmallerLabel>
                         Name:
-                        <input 
+                        <SmallerInput 
                             type='text'
                             name='name'
                             value={this.state.name} 
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Date of Birth (MMDDYYYY):
-                        <input 
+                        <SmallerInput 
                             type='text'
                             value={this.state.dob}
                             name='dob' 
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <DropdownLabel>
                         Sex:
-                        <select defaultValue={this.state.sex} ref='sexSelector' onChange={e => this.dropdownChange(e)}>
+                        <StyledSelect defaultValue={this.state.sex} ref='sexSelector' onChange={e => this.dropdownChange(e)}>
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                             <option value="I">Other</option>
-                        </select>
-                    </label>
-                    <label>
+                        </StyledSelect>
+                    </DropdownLabel>
+                    <SmallerLabel>
                         Primary Guardian:
-                        <input 
+                        <SmallerInput 
                             type='text'
                             name="guardian"
                             value={this.state.guardian} 
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
-                    <label>
+                    </SmallerLabel>
+                    <SmallerLabel>
                         Phone Number (###-###-####):
-                        <input 
+                        <SmallerInput 
                             type='text'
                             name='contact'
                             value={this.state.contact} 
                             onChange={e => this.formChange(e)} 
                         />
-                    </label>
+                    </SmallerLabel>
                     <label>
-                        <input type='submit' />
+                        <StyledSubmit type='submit' />
                     </label>
-                </form>
+                </StyledForm>
             </div>
         )
     }
